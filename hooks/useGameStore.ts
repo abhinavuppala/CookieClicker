@@ -4,6 +4,9 @@ import { persist } from "zustand/middleware";
 interface GameState {
     cookies: number,
     addCookies: (x: number) => void,
+
+    autoClickers: number,
+    addAutoClickers: (x: number) => void,
 }
 
 export const useGameStore = create<GameState>()(
@@ -15,6 +18,20 @@ export const useGameStore = create<GameState>()(
                 cookies: 0,
                 addCookies: (x: number) => set(
                     (state) => ({ cookies: state.cookies + x })
+                ),
+                
+                // initial num autoclickers are 0
+                autoClickers: 0,
+
+                // we only add autoclickers if we have enough money (10 cookies per)
+                addAutoClickers: (x: number) => set(
+                    (state) => {
+                        if (state.cookies >= x * 10)
+                        {
+                            return { cookies: state.cookies - (x * 10), autoClickers: state.autoClickers + x }
+                        }
+                        return { }
+                    },
                 )
             }
         ),
