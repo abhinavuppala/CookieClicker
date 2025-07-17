@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect } from "react";
 import { useGameStore } from "../../hooks/useGameStore";
+import { Cookie, Pointer, Trash } from "lucide-react";
 
 export default function Home() {
 
@@ -9,6 +10,7 @@ export default function Home() {
   const {
     cookies, addCookies,
     autoClickers, addAutoClickers,
+    clear: clearCookies,
   } = useGameStore();
 
   // we want to create an interval that goes every 1 second
@@ -25,27 +27,26 @@ export default function Home() {
   }, [autoClickers]); // update interval whenever we buy an autoclicker
   
   return (
-    <div>
-      {/* display cookie count */}
-      <div>
-        Cookies: {cookies}
-      </div>
+    <div className="flex justify-center mt-20">
+      <div className="flex flex-row justify-center w-5/12 h-4/12 bg-slate-400">
 
-      {/* clicker - add cookies */}
-      <div>
-        <button onClick={() => addCookies(1)}>Click</button>
-      </div>
+        {/* display cookie count */}
+        <div onClick={() => addCookies(1)} className="flex cursor-pointer select-none ml-5 mr-5 mt-20">
+          <Cookie /> {cookies}
+        </div>
 
-      {/* display number of auto clickers */}
-      {/* these are upgrades player can buy that give 1 click/second */}
-      <div>
-        Auto Clickers: {}
-      </div>
+        {/* display number of auto clickers */}
+        {/* these are upgrades player can buy that give 1 click/second */}
+        <div onClick={() => addAutoClickers(1)} className="flex cursor-pointer select-none ml-5 mr-5 mt-20">
+          <Pointer /> {autoClickers}
+        </div>
 
-      {/* buy autoclickers (10 cookies each) */}
-      <div>
-        <button onClick={() => addAutoClickers(1)}>Buy Autoclicker (10 cookies)</button>
+        {/* reset cookie count to 0 */}
+        <div onClick={clearCookies} className="flex cursor-pointer select-none mt-20 ml-5 mr-5 mb-20">
+          <Trash /> Reset
+        </div>
       </div>
     </div>
+    
   );
 }

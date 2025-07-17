@@ -7,6 +7,9 @@ interface GameState {
 
     autoClickers: number,
     addAutoClickers: (x: number) => void,
+
+    // reset all values to 0
+    clear: () => void,
 }
 
 export const useGameStore = create<GameState>()(
@@ -32,6 +35,11 @@ export const useGameStore = create<GameState>()(
                         }
                         return { }
                     },
+                ),
+
+                // reset cookies & autoclickers to 0. Could be useful for debugging
+                clear: () => set(
+                    (state) => ({ cookies: 0, autoClickers: 0 })
                 )
             }
         ),
